@@ -1,0 +1,21 @@
+$font-title:Helvetica, sans-serif;
+$color-title:#666666;
+$color-info:#909090;
+$color-icon:#000;
+$color-pagination:#fff;
+$color-pagination-bg:$color-title;
+$color-pagination-bg-active:#03152e;
+
+
+@import 'TopMovies';
+@import 'Pagination';
+
+
+.div-block-center{
+  display: block;
+  text-align: center;
+}
+
+.inline-block{
+  display: inline-block;
+}

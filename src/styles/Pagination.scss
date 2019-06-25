@@ -1,0 +1,20 @@
+
+.pagination-wrapper{
+    margin:1rem 0;
+  }
+  
+  .pagination{
+    display: inline;
+    padding:0.5rem 0.75rem;
+    margin:0 0.5rem;
+    color:$color-pagination;
+    background-color: $color-pagination-bg;
+    user-select: none;
+    cursor: pointer;
+    
+  }
+  
+  .pagination.active, .pagination.arrow{
+    color:$color-pagination;
+    background-color: $color-pagination-bg-active;
+  }

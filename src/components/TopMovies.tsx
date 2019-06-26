@@ -1,10 +1,12 @@
 import React from 'react';
+import { RouteComponentProps } from "react-router-dom";
 
 import {tmdbKey, API, ImageBaseUrl} from "utils/API";
 
 import Loading from './Loading'
 import Pagination from './Pagination';
-import { bool, number } from 'prop-types';
+import ShowErrorMessage from './ShowErrorMessage';
+import APIErrorObject from 'interfaces/APIErrorObject';
 
 interface Movie{
     vote_count: number,
@@ -32,19 +34,17 @@ interface MovieList {
     results:Array<Movie>
 }
 
-interface Props {}
+interface Props extends RouteComponentProps{};
   
 interface State {
     loading: boolean;
-    error: any;
+    error: undefined|APIErrorObject;
     page:number,
-    pageData:any
+    pageData:undefined|MovieList
     itemsInRow:number
 }
 
 type StateKeys = keyof State;
-
-
 
 export default class TopMovies extends React.Component<Props,State> {
     mounted:boolean;
@@ -105,6 +105,10 @@ export default class TopMovies extends React.Component<Props,State> {
         }
     }
 
+    goToMovieDetails(id:number){
+        this.props.history.push(`movie/${id}`);
+    }
+
     renderMovieList(){
         let movieList = this.state.pageData && this.state.pageData.results;
         
@@ -142,7 +146,7 @@ export default class TopMovies extends React.Component<Props,State> {
             let movieTs = movie as Pick<Movie, MovieKeys>;
             
             let className = "movie-list-entry";
-            let imagePath = movieTs.poster_path ;
+            let imagePath = movieTs.poster_path;
             let imageSizes = ["w185","w500"];
             if(isVertical){
                 className += " vertical";
@@ -151,8 +155,8 @@ export default class TopMovies extends React.Component<Props,State> {
             }
             
             return (
-                <div key={movieTs.id} className={className}>
-                    <img alt={"movie.title"}
+                <div key={movieTs.id} className={className} onClick={this.goToMovieDetails.bind(this,movieTs.id)}>
+                    <img alt={movieTs.title}
                     srcSet={
                         `${ImageBaseUrl}/${imageSizes[0]}/${imagePath} 1x, ${ImageBaseUrl}/${imageSizes[1]}${imagePath} 2x`
                     } 
@@ -177,7 +181,13 @@ export default class TopMovies extends React.Component<Props,State> {
             return(
                 <Loading/>
             );
-        }else{
+        }
+        else if(this.state.error){
+            return(
+                <ShowErrorMessage error={this.state.error}/>
+            )
+        }
+        else{
             let totalPages = this.state.pageData && this.state.pageData.total_pages;
             return (
                 <div className={"div-block-center"}>
@@ -187,7 +197,7 @@ export default class TopMovies extends React.Component<Props,State> {
                         </div>
                     </div>
 
-                    {this.state.pageData && this.state.pageData.total_pages &&
+                    {totalPages &&
                         <Pagination
                         showNumberOfPages={10}
                         totalPageCount={totalPages}

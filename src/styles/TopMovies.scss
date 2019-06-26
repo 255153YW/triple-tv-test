@@ -1,27 +1,29 @@
 
+.movie-list-container{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 0.5rem;
+}
+
 .movie-list-row{
     display:flex;
     flex-direction: row;
     align-content: center;
-  }
+}
   
 .movie-list-entry{
-    display:flex;
-    flex-direction: column;
+    @extend .card-container;
     align-items: center;
     text-align: center;
     width:185px;
-    margin:0.5rem;
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
-    transition: 0.3s;
     cursor: pointer;
 }
 
 .movie-list-entry.vertical{
     display:block;
     width:100%;
-    padding-top:0.5rem;
-    margin:0;
+    margin:0.5rem 0 0;
 }
 
 .movie-list-entry 
@@ -31,13 +33,13 @@
 
 .movie-list-entry-card{
     display:flex;
-    font-family:$font-title;
     flex-direction: column;
     flex:1;
     padding:0.5rem 0.5rem;
 }
 
 .movie-list-entry-title{
+    font-family:$font-title;
     color:$color-title;
     font-weight: bold;
 }

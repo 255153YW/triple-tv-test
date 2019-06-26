@@ -191,11 +191,12 @@ export default class TopMovies extends React.Component<Props,State> {
             let totalPages = this.state.pageData && this.state.pageData.total_pages;
             return (
                 <div className={"div-block-center"}>
-                    <div className={"div-block-center"}>
-                        <div className={"inline-block"}>
+                    <div className={"inline-block"}>
+                        <div className={"movie-list-container"}>
                             {this.renderMovieList()}
                         </div>
                     </div>
+                        
 
                     {totalPages &&
                         <Pagination

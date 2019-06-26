@@ -192,24 +192,21 @@ export default class MovieDetails extends React.Component<Props,State> {
             let trailer = this.getTrailer();
             if(trailer){
                 return(
-                    <div className={"div-block-center"}>
-                        <iframe 
-                        src={`https://www.youtube.com/embed/${trailer.key}?autoplay=0&origin=${window.location.hostname}`}
-                        frameBorder="0">
-                        </iframe>
-                    </div>
+                    <iframe className={"movie-details-trailer"}
+                    src={`https://www.youtube.com/embed/${trailer.key}?autoplay=0&origin=${window.location.hostname}`}
+                    frameBorder="0">
+                    </iframe>
                 )
             }else if(this.state.movieData){
                 let imagePath = this.state.movieData.backdrop_path;
                 let imageSizes = ["w300","w780"];
                 return (
-                    <div className={"div-block-center"}>
-                        <img alt={this.state.movieData.title}
-                        srcSet={
-                            `${ImageBaseUrl}/${imageSizes[0]}/${imagePath} 1x, ${ImageBaseUrl}/${imageSizes[1]}${imagePath} 2x`
-                        } 
-                        src={`${ImageBaseUrl}/${imageSizes[0]}${imagePath}`}/>
-                    </div>
+                    <img className={"movie-details-trailer"}
+                    alt={this.state.movieData.title}
+                    srcSet={
+                        `${ImageBaseUrl}/${imageSizes[0]}/${imagePath} 1x, ${ImageBaseUrl}/${imageSizes[1]}${imagePath} 2x`
+                    } 
+                    src={`${ImageBaseUrl}/${imageSizes[0]}${imagePath}`}/>
                 );
             }
         }
@@ -230,22 +227,27 @@ export default class MovieDetails extends React.Component<Props,State> {
             if(this.state.movieData){
                 return (
                     <div className={"div-block-center"}>
-                        {this.renderTrailer()}
-                        <div className={"card-container"}>
-                            <div className={"movie-details-title"}>
-                                {this.state.movieData.title}
+                        <div className={"movie-details-container"}>
+                            <div className={"card-container"}>
+                                {this.renderTrailer()}
                             </div>
-                            <div className={"movie-details-overview"}>
-                                {this.state.movieData.overview}
+                            <div className={"movie-details-card"}>
+                                <div className={"movie-details-card-title"}>
+                                    {this.state.movieData.title}
+                                </div>
+                                <div className={"movie-details-card-content"}>
+                                    {this.state.movieData.overview}
+                                </div>
                             </div>
-                        </div>
-                        <div className={"card-container"}>
-                            recommended movies
-                        </div>
-                        <div className={"card-container"}>
-                            reviews
+                            <div className={"movie-details-card"}>
+                                recommended movies
+                            </div>
+                            <div className={"movie-details-card"}>
+                                reviews
+                            </div>
                         </div>
                     </div>
+                    
                 );
             }else{
                 return(

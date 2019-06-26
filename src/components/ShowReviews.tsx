@@ -56,6 +56,15 @@ export default class ShowReviews extends React.Component<Props,State> {
         } as Pick<State, StateKeys>)
     }
 
+    triggerGetData(id:string){
+        if(!this.state.loading){
+            this.setState({
+                loading:true,
+            },this.getData.bind(this,id));
+        }else{
+            this.getData(id);
+        }
+    }
 
     getData(id:string){
         API.get(`3/movie/${id}/reviews?api_key=${tmdbKey.api_key}&language=en-US&pages=1`)
@@ -73,13 +82,7 @@ export default class ShowReviews extends React.Component<Props,State> {
     componentDidMount(){
         this.mounted = true;
         let id = this.props.match.params.id;
-        if(this.state.loading){
-            this.getData(id);
-        }else{
-            this.setState({
-                loading:true
-            },this.getData.bind(this,id));
-        }
+        this.triggerGetData(id);
     }
 
     componentWillUnmount(){
@@ -130,7 +133,7 @@ export default class ShowReviews extends React.Component<Props,State> {
 
                 if(reviews.length > numOfReviews){
                     renderReviews.push(
-                        <div className={"movie-details-card-content"}>
+                        <div key={"review-show-all"} className={"movie-details-card-content"}>
                             <a href='/'>See all reviews</a>
                         </div>
                     );

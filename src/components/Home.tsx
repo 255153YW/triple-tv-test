@@ -5,9 +5,6 @@ import TopMovies from './TopMovies';
 
 export default function Home(props:RouteComponentProps) {
     return (
-        <div>
-            Top movies
-            <TopMovies {...props}/>
-        </div>
+        <TopMovies {...props}/>
     );
   }

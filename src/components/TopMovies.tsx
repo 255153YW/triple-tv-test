@@ -9,6 +9,7 @@ import ShowErrorMessage from './ShowErrorMessage';
 import APIErrorProps from 'interfaces/APIErrorProps';
 import MovieOverviewProps from 'interfaces/MovieOverviewProps';
 import MovieListProps from 'interfaces/MovieListProps';
+import ShowMovieCardList from './ShowMovieCardList';
 
 type MovieKeys = keyof MovieOverviewProps;
 
@@ -47,6 +48,17 @@ export default class TopMovies extends React.Component<Props,State> {
         } as Pick<State, StateKeys>)
       }
 
+    triggerGetData(page:number){
+        if(!this.state.loading){
+            this.setState({
+                loading:true
+            },this.getData.bind(this,page));
+        }else{
+            this.getData(page);
+        }
+    }
+
+
     getData(page:number){
         API.get(`3/movie/top_rated?api_key=${tmdbKey.api_key}&language=en-US&page=${page}`)
             .then((response) => {
@@ -64,13 +76,7 @@ export default class TopMovies extends React.Component<Props,State> {
         this.mounted = true;
         let page = this.state.page;
 
-        if(this.state.loading){
-            this.getData(page);
-        }else{
-            this.setState({
-                loading:true
-            },this.getData.bind(this,page));
-        }
+        this.triggerGetData(page);
     }
 
     componentWillUnmount(){
@@ -79,7 +85,7 @@ export default class TopMovies extends React.Component<Props,State> {
 
     componentDidUpdate(prevProps:Props, prevState:State){
         if(prevState.page !== this.state.page){
-            this.getData(this.state.page);
+            this.triggerGetData(this.state.page);
         }
     }
 
@@ -92,9 +98,8 @@ export default class TopMovies extends React.Component<Props,State> {
         
         if(Array.isArray(movieList) && movieList.length > 0){
             let itemsInRow = this.state.itemsInRow;
-
             if(this.isMobile){
-                return this.renderMovies(movieList, true);
+                return <ShowMovieCardList movieList={movieList} isVertical={true} {...this.props}/>
             }else{
                 let numOfRows = Math.ceil(movieList.length/itemsInRow);
                 let listInTheRow=[];
@@ -106,7 +111,7 @@ export default class TopMovies extends React.Component<Props,State> {
                 return listInTheRow.map((movieList,index)=>{
                     return (
                         <div key={`row-${index}`} className={"movie-list-row"}>
-                            {this.renderMovies(movieList,false)}
+                            <ShowMovieCardList movieList={movieList} isVertical={false} {...this.props}/>
                         </div>
                     );
                 });
@@ -117,41 +122,6 @@ export default class TopMovies extends React.Component<Props,State> {
                 <div>Nothing to see here, Move along.</div>
             );
         }
-    }
-
-    renderMovies(movieList:Array<Object>,isVertical:boolean){
-        return movieList.map((movie)=>{
-            let movieTs = movie as Pick<MovieOverviewProps, MovieKeys>;
-            
-            let className = "movie-list-entry";
-            let imagePath = movieTs.poster_path;
-            let imageSizes = ["w185","w500"];
-            if(isVertical){
-                className += " vertical";
-                imagePath = movieTs.backdrop_path;
-                imageSizes = ["w300","w780"];
-            }
-            
-            return (
-                <div key={movieTs.id} className={className} onClick={this.goToMovieDetails.bind(this,movieTs.id)}>
-                    <img alt={movieTs.title}
-                    srcSet={
-                        `${ImageBaseUrl}/${imageSizes[0]}/${imagePath} 1x, ${ImageBaseUrl}/${imageSizes[1]}${imagePath} 2x`
-                    } 
-                    src={`${ImageBaseUrl}/${imageSizes[0]}${imagePath}`}/>
-
-                    <div className="movie-list-entry-card">
-                        <div className="movie-list-entry-title">
-                            {movieTs.title}
-                        </div>
-                        
-                        <div className="movie-list-entry-info">
-                            <span><i className="fas fa-star"></i> {movieTs.vote_average}</span>
-                        </div>
-                    </div>
-                </div>
-            );
-        });
     }
 
     render() {
@@ -167,18 +137,20 @@ export default class TopMovies extends React.Component<Props,State> {
         }
         else{
             let totalPages = this.state.pageData && this.state.pageData.total_pages;
+            let paginationPages = 10;
+            if(this.isMobile){
+                paginationPages = 5;
+            }
             return (
-                <div className={"div-block-center"}>
-                    <div className={"inline-block"}>
-                        <div className={"movie-list-container"}>
-                            {this.renderMovieList()}
-                        </div>
+                <div className={"movie-list-wrapper"}>
+                    <div className={"movie-list-container"}>
+                        {this.renderMovieList()}
                     </div>
                         
 
                     {totalPages &&
                         <Pagination
-                        showNumberOfPages={10}
+                        showNumberOfPages={paginationPages}
                         totalPageCount={totalPages}
                         currentPageIndex={this.state.page-1} 
                         setCurrentPageNr={this.setStateData.bind(this)}

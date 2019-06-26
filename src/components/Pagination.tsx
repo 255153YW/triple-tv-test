@@ -23,7 +23,7 @@ export default class Pagination extends React.Component<Props, State> {
         let rows = [];
         
         let initialStart = 0;
-        let initialSize = 10;
+        let initialSize = this.props.showNumberOfPages;
         let initialThreshold = Math.round(initialSize*0.5+1);
 
         var size;

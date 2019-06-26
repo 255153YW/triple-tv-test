@@ -9,6 +9,7 @@ import APIErrorProps from 'interfaces/APIErrorProps';
 
 import MovieDetailsProps from 'interfaces/MovieDetailsProps';
 import ShowReviews from './ShowReviews';
+import ShowSimilarMovies from './ShowSimilarMovies';
 
 interface MatchParameter {id: string; }
 
@@ -35,8 +36,6 @@ interface MovieVideosData{
 interface State {
     loading:boolean,
     loadingVideos:boolean,
-    loadingRecommendations:boolean,
-    loadingReviews:boolean,
     error:undefined|APIErrorProps,
     movieData:undefined|MovieDetailsProps,
     movieVideosData:undefined|MovieVideosData
@@ -55,8 +54,6 @@ export default class MovieDetails extends React.Component<Props,State> {
         this.state={
             loading:true,
             loadingVideos:true,
-            loadingRecommendations:true,
-            loadingReviews:true,
             error:undefined,
             movieData:undefined,
             movieVideosData:undefined
@@ -77,6 +74,17 @@ export default class MovieDetails extends React.Component<Props,State> {
             })
         }else{
             return undefined;
+        }
+    }
+
+    triggerGetData(id:string){
+        if(!this.state.loading && !this.state.loadingVideos){
+            this.setState({
+                loading:true,
+                loadingVideos:true
+            },this.getData.bind(this,id));
+        }else{
+            this.getData(id);
         }
     }
 
@@ -101,19 +109,14 @@ export default class MovieDetails extends React.Component<Props,State> {
             })
             .finally(() => {
                 this.setStateData("loadingVideos",false);
+                window.scrollTo(0, 0);
             });
     }
 
     componentDidMount(){
         this.mounted = true;
         let id = this.props.match.params.id;
-        if(this.state.loading){
-            this.getData(id);
-        }else{
-            this.setState({
-                loading:true
-            },this.getData.bind(this,id));
-        }
+        this.triggerGetData(id);
     }
 
     componentWillUnmount(){
@@ -121,11 +124,12 @@ export default class MovieDetails extends React.Component<Props,State> {
     }
 
     componentDidUpdate(prevProps:Props, prevState:State){
-        let oldMovieDataId = prevState && prevState.movieData && prevState.movieData.id;
-        let newMovieDataId = this.state.movieData && this.state.movieData.id;
+        let oldMovieId = prevProps.match.params.id;
+        let newMovieId = this.props.match.params.id;
+        let idChanged = newMovieId !== oldMovieId;
 
-        if(newMovieDataId && (!oldMovieDataId || (oldMovieDataId !== newMovieDataId))){
-            this.getData(newMovieDataId);
+        if(idChanged){
+            this.triggerGetData(newMovieId);
         }
     }
 
@@ -185,9 +189,7 @@ export default class MovieDetails extends React.Component<Props,State> {
                                     {this.state.movieData.overview}
                                 </div>
                             </div>
-                            <div className={"movie-details-card"}>
-                                recommended movies
-                            </div>
+                            <ShowSimilarMovies {...this.props}/>
                             <ShowReviews movieTitle={this.state.movieData && this.state.movieData.title} {...this.props}/>
                         </div>
                     </div>

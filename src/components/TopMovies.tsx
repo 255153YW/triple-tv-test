@@ -6,41 +6,19 @@ import {tmdbKey, API, ImageBaseUrl} from "utils/API";
 import Loading from './Loading'
 import Pagination from './Pagination';
 import ShowErrorMessage from './ShowErrorMessage';
-import APIErrorObject from 'interfaces/APIErrorObject';
+import APIErrorProps from 'interfaces/APIErrorProps';
+import MovieOverviewProps from 'interfaces/MovieOverviewProps';
+import MovieListProps from 'interfaces/MovieListProps';
 
-interface Movie{
-    vote_count: number,
-    id: number,
-    video: boolean,
-    vote_average: number,
-    title: string,
-    popularity: number,
-    poster_path: string,
-    original_language: string,
-    original_title: string,
-    genre_ids: Array<number>,
-    backdrop_path: string,
-    adult: boolean,
-    overview: string,
-    release_date: string
-}
-
-type MovieKeys = keyof Movie;
-
-interface MovieList {
-    page:number,
-    total_results:number,
-    total_pages:number,
-    results:Array<Movie>
-}
+type MovieKeys = keyof MovieOverviewProps;
 
 interface Props extends RouteComponentProps{};
   
 interface State {
     loading: boolean;
-    error: undefined|APIErrorObject;
+    error: undefined|APIErrorProps;
     page:number,
-    pageData:undefined|MovieList
+    pageData:undefined|MovieListProps
     itemsInRow:number
 }
 
@@ -143,7 +121,7 @@ export default class TopMovies extends React.Component<Props,State> {
 
     renderMovies(movieList:Array<Object>,isVertical:boolean){
         return movieList.map((movie)=>{
-            let movieTs = movie as Pick<Movie, MovieKeys>;
+            let movieTs = movie as Pick<MovieOverviewProps, MovieKeys>;
             
             let className = "movie-list-entry";
             let imagePath = movieTs.poster_path;

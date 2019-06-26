@@ -3,7 +3,7 @@ interface response{
     statusText:string
 }
 
-export default interface APIErrorObject{
+export default interface APIErrorProps{
     response:undefined|response,
     message:string
 }

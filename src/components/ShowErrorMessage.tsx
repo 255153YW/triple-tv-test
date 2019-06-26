@@ -1,8 +1,8 @@
 import React from 'react';
-import APIErrorObject from 'interfaces/APIErrorObject';
+import APIErrorProps from 'interfaces/APIErrorProps';
 
 interface Props{
-    error:APIErrorObject
+    error:APIErrorProps
 }
 
 export default function ShowErrorMessage(props:Props) {

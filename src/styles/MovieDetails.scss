@@ -1,37 +1,32 @@
-.card-container{
-    display:flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    margin:0.5rem;
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
-    transition: 0.3s;
-    cursor: pointer;
-  }
-  
+
   .movie-details-container{
     display:inline-block;
     width:$main-container-width-desktop;
   }
-  
+
   .movie-details-card{
     @extend .card-container;
+    display:block;
+    text-align: left;
   }
   
   .movie-details-card-title{
     font-family:$font-title;
     color:$color-title;
     font-weight: bold;
-    text-align: center;
+    font-size:1.25rem;
     padding:0.5rem 0.5rem;
+  }
+
+  .movie-details-card-title.sub{
+    font-size:1rem;
+    padding:0;
   }
   
   .movie-details-card-content{
-    text-align: left;
     color:$color-standard;
     padding:0.5rem 0.5rem;
   }
-  
   
   .movie-details-trailer{
     width:100%;

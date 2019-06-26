@@ -36,12 +36,16 @@
     flex-direction: column;
     flex:1;
     padding:0.5rem 0.5rem;
+    width:100%;
 }
 
 .movie-list-entry-title{
     font-family:$font-title;
     color:$color-title;
     font-weight: bold;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .movie-list-entry-info{

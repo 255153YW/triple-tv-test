@@ -5,43 +5,16 @@ import {tmdbKey, API, ImageBaseUrl} from "utils/API";
 
 import Loading from './Loading';
 import ShowErrorMessage from './ShowErrorMessage'
-import APIErrorObject from 'interfaces/APIErrorObject';
+import APIErrorProps from 'interfaces/APIErrorProps';
+
+import MovieDetailsProps from 'interfaces/MovieDetailsProps';
+import ShowReviews from './ShowReviews';
 
 interface MatchParameter {id: string; }
 
 interface Props extends RouteComponentProps{
     match:match<MatchParameter>;
-    // RouteComponentProps<MatchParameter>
 };
-
-interface MovieCollection{
-    id: number,
-    name: string,
-    poster_path: string,
-    backdrop_path: string
-}
-
-interface MovieGenre{
-    id: number,
-    name: string
-}
-
-interface MovieProductionCompany{
-    id: number,
-    logo_path:string|null
-    name: string,
-    origin_country: string,
-}
-
-interface MovieProductionCountries{
-    iso_3166_1: number,
-    name: string,
-}
-
-interface MovieSpokenLanguange{
-    iso_639_1: number,
-    name: string,
-}
 
 interface MovieClip{
     id:string,
@@ -54,33 +27,6 @@ interface MovieClip{
     type: String
 }
 
-interface MovieDetailsData{
-    id:string,
-    imdb_id: string,
-    adult: boolean,
-    backdrop_path: string,
-    belongs_to_collection: null|MovieCollection,
-    budget: number,
-    genres: Array<MovieGenre>,
-    homepage: string|null,
-    original_language: string,
-    original_title: string,
-    overview: string,
-    popularity: number,
-    poster_path: string,
-    production_companies: Array<MovieProductionCompany>,
-    production_countries: Array<MovieProductionCountries>,
-    release_date: string,
-    revenue: number,
-    runtime: 109,
-    spoken_languages: Array<MovieSpokenLanguange>,
-    status: string,
-    tagline: string,
-    title: string,
-    vote_average: number,
-    vote_count: number
-}
-
 interface MovieVideosData{
     id:string,
     results:Array<MovieClip>
@@ -91,8 +37,8 @@ interface State {
     loadingVideos:boolean,
     loadingRecommendations:boolean,
     loadingReviews:boolean,
-    error:undefined|APIErrorObject,
-    movieData:undefined|MovieDetailsData,
+    error:undefined|APIErrorProps,
+    movieData:undefined|MovieDetailsProps,
     movieVideosData:undefined|MovieVideosData
 }
 
@@ -242,12 +188,9 @@ export default class MovieDetails extends React.Component<Props,State> {
                             <div className={"movie-details-card"}>
                                 recommended movies
                             </div>
-                            <div className={"movie-details-card"}>
-                                reviews
-                            </div>
+                            <ShowReviews movieTitle={this.state.movieData && this.state.movieData.title} {...this.props}/>
                         </div>
                     </div>
-                    
                 );
             }else{
                 return(

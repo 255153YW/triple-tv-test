@@ -11,7 +11,7 @@ Before starting the project, create a .json file called 'tmdbKey.json' in the 's
 
 ---end .json content
 
-More information here:
+More information on how to get the API key (don't worry, it's free!!):
 https://www.themoviedb.org/documentation/api
   
   

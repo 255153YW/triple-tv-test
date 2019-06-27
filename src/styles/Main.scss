@@ -30,6 +30,22 @@ body{
   display: inline-block;
 }
 
+.button-link{
+  display: block;
+  border: none;
+  background: none;
+  margin:0;
+  padding:0;
+  color:inherit;
+  font-family:inherit;
+  font-weight: bold;
+}
+
+.button-link:hover{
+  color:blue;
+}
+
+
 .card-container{
   display:flex;
   flex-direction: column;

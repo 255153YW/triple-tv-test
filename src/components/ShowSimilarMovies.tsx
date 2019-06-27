@@ -7,7 +7,6 @@ import Loading from './Loading';
 import ShowErrorMessage from './ShowErrorMessage'
 import APIErrorProps from 'interfaces/APIErrorProps';
 
-import Truncate from 'react-truncate';
 import MovieListProps from 'interfaces/MovieListProps';
 import ShowMovieCardList from './ShowMovieCardList';
 
@@ -108,7 +107,7 @@ export default class ShowSimilarMovies extends React.Component<Props,State> {
                     <div className={"movie-details-card-title"}>
                         More like this
                     </div>
-                    <div className={"movie-list-row-scroll"} style={{gridTemplateColumns:`185px repeat(${movieList.length},185px) 0px`}}>
+                    <div className={"movie-list-row-scroll"} style={{gridTemplateColumns:`repeat(${movieList.length},185px)`}}>
                         <ShowMovieCardList movieList={movieList} isVertical={false} {...this.props}/>
                     </div>
                 </div>

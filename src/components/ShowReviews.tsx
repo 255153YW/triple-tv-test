@@ -123,7 +123,7 @@ export default class ShowReviews extends React.Component<Props,State> {
                         return (
                             <div key={review.id} className={"movie-details-card-content"}>
                                 <div className={"movie-details-card-title sub"}>{review.author}</div>
-                                <Truncate lines={3} ellipsis={<span>...<a onClick={this.showFullReviewClick.bind(this,review.id)}>Read more</a></span>}>
+                                <Truncate lines={3} ellipsis={<span>...<button type="button" className={"button-link"} onClick={this.showFullReviewClick.bind(this,review.id)}>Read more</button></span>}>
                                     {review.content}
                                 </Truncate>
                             </div>

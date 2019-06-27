@@ -142,7 +142,7 @@ export default class MovieDetails extends React.Component<Props,State> {
             let trailer = this.getTrailer();
             if(trailer){
                 return(
-                    <iframe className={"movie-details-trailer"}
+                    <iframe title={"trailer"} className={"movie-details-trailer"}
                     src={`https://www.youtube.com/embed/${trailer.key}?autoplay=0&origin=${window.location.hostname}`}
                     frameBorder="0">
                     </iframe>

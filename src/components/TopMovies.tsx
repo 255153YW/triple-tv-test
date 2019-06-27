@@ -1,7 +1,7 @@
 import React from 'react';
 import { RouteComponentProps } from "react-router-dom";
 
-import {tmdbKey, API, ImageBaseUrl} from "utils/API";
+import {tmdbKey, API} from "utils/API";
 
 import Loading from './Loading'
 import Pagination from './Pagination';

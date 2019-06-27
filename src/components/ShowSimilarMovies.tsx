@@ -107,7 +107,7 @@ export default class ShowSimilarMovies extends React.Component<Props,State> {
                     <div className={"movie-details-card-title"}>
                         More like this
                     </div>
-                    <div className={"movie-list-row-scroll"} style={{gridTemplateColumns:`repeat(${movieList.length},185px)`}}>
+                    <div className={"movie-list-row-scroll"} style={{gridTemplateColumns:`0.5rem repeat(${movieList.length},185px) 1rem`}}>
                         <ShowMovieCardList movieList={movieList} isVertical={false} {...this.props}/>
                     </div>
                 </div>

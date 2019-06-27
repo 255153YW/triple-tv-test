@@ -24,6 +24,11 @@
   overflow-x: scroll;
   scroll-snap-type: x proximity;
 }
+
+.movie-list-row-scroll::before,
+.movie-list-row-scroll::after {
+  content: '';
+}
   
 .movie-list-entry{
     @extend .card-container;
